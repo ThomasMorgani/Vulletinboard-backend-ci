@@ -1,0 +1,21 @@
+#FORCE HTTPS
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Send would-be 404 requests to Craft
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} !^/(favicon\.ico|apple-touch-icon.*\.png)$ [NC]
+
+    # REMOVE INDEX.PHP
+    RewriteRule (.+) index.php?p=$1 [QSA,L]
+
+</IfModule>
+
+#REDIR TO eipl.org domain
+#RewriteBase /
+#RewriteCond %{HTTP_HOST} !eipl.org$ [NC]
+#RewriteRule ^(.*)$ https://eipl.org/$1 [L,R=301]
